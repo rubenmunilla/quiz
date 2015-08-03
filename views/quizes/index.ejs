@@ -11,7 +11,11 @@
 <% } %>
 <table>
 <% var i;for (i=0;i< quizes.length;i++){ %>
-	<tr><td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
+	<tr style="border:solid 1px black;">
+	<td style="border:solid 1px;"><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+	<td><a href="/quizes/<%= quizes[i].id %>/edit">editar</a></td>
+	<td><a href="">borrar</a></td>
+	</tr>
 <% } %>
 </table>
 </p>
