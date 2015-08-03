@@ -77,7 +77,7 @@ exports.index = function(req,res){
 			models.Quiz.findAll().then(function(quizes){
 			res.render('quizes/index.ejs',{quizes:quizes,errors:[]})}).catch(function(error){next(error);});
 		}else{
-			models.Quiz.findAll({where:['pregunta like ?','%'+busqueda+'%'],order:'pregunta ASC'}).then(function(quizes){
+			models.Quiz.findAll({where:['lower(pregunta) like lower(?)','%'+busqueda+'%'],order:'pregunta ASC'}).then(function(quizes){
 			res.render('quizes/index.ejs',{quizes:quizes,errors:[]})}).catch(function(error){next(error);});
 		}
 	}
