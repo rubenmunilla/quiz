@@ -10,10 +10,15 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
   var quiz = models.Quiz.build( req.body.quiz);
-
-  quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
-	  res.redirect('/quizes');
-  })
+	quiz.validate().then(
+		function(err){
+			if(err){
+				res.render('quizes/new', {quiz:quiz,errors:err.errors});
+			}else{
+				quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+				res.redirect('/quizes');});
+			}
+		});
 };
 
 exports.load = function(req, res,next,quizId) {
@@ -53,6 +58,6 @@ exports.answer = function(req, res) {
 		resultado = 'Correcto';
 	}
 	res.render('quizes/answer', 
-			{quiz: req.quiz,respuesta: resultado});
+			{quiz: req.quiz,respuesta: resultado,errors: []});
 };
 
