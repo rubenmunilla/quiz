@@ -8,6 +8,8 @@ var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
 
+
+
 var routes = require('./routes/index');
 
 var app = express();
@@ -38,6 +40,24 @@ app.use(function(req, res, next) {
   // Hacer visible req.session en las vistas
   res.locals.session = req.session;
   next();
+});
+
+
+//AUTO LOGOUT
+ app.use(function(req, res, next) {
+     if(req.session.user){
+         if(!req.session.timecheck){
+             req.session.timecheck=(new Date()).getTime();
+       }else{
+            if((new Date()).getTime()-req.session.timecheck > 120000){
+                delete req.session.user;     
+                delete req.session.timecheck;    
+           }else{
+                req.session.timecheck=(new Date()).getTime();
+           }
+        }
+    }
+    next();
 });
 
 app.use('/', routes);
