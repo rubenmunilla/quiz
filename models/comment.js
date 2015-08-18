@@ -17,13 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 						},
 						countCommented: function () {
 							return this.aggregate('QuizId', 'count',{ distinct: true }); // cuenta el numero de quizId diferentes
-						},
-						countUnpublished: function () {
-		    				return this.aggregate('QuizId', 'count', {'where': { 'publicado': false }}); // cuenta los no publicados
-		    			},
-						countPublished: function () {
-							return this.aggregate('publicado', 'count', { distinct: false }); // cuenta los publicados
-						}	
+						}
 					}
 				});
 };

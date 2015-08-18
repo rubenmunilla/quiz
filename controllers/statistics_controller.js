@@ -3,9 +3,8 @@ var models = require('../models/models.js');
 var statistics = {
        	questions: 0,
         comments: 0,
-        unpublished: 0,
-        published: 0,
-		commented: 0
+		commented: 0,
+		uncommented: 0
  };
    
 exports.calcular = function(req, res, next) {
@@ -17,18 +16,11 @@ exports.calcular = function(req, res, next) {
         })
         .then(function(comments){
             statistics.comments = comments;
-            return models.Comment.countUnpublished();
+            return models.Comment.countCommented();
         })
-        .then(function(unpublished){
-        	statistics.unpublished = unpublished;
-        	return models.Comment.countPublished();
-        })
-         .then(function(published){
-        	statistics.published = published;
-			return models.Comment.countCommented();
-         })
-         .then(function(commented){
+        .then(function(commented){
         	statistics.commented = commented;
+			statistics.uncommented = statistics.questions - commented;
          })
         .catch(function(error) {next(error)})
         .finally(function(){next()});
